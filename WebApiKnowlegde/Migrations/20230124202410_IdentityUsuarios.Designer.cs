@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiKnowlegde;
@@ -11,9 +12,11 @@ using WebApiKnowlegde;
 namespace WebApiKnowlegde.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230124202410_IdentityUsuarios")]
+    partial class IdentityUsuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,38 +271,6 @@ namespace WebApiKnowlegde.Migrations
                     b.ToTable("departaments");
                 });
 
-            modelBuilder.Entity("WebApiKnowlegde.Entidades.departaments_employees", b =>
-                {
-                    b.Property<int>("departamentsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("employeesId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("created_by")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("created_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("modified_by")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("modified_date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("departamentsId", "employeesId");
-
-                    b.HasIndex("employeesId");
-
-                    b.ToTable("departaments_employees");
-                });
-
             modelBuilder.Entity("WebApiKnowlegde.Entidades.employees", b =>
                 {
                     b.Property<int>("Id")
@@ -362,12 +333,14 @@ namespace WebApiKnowlegde.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("created_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("created_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("modified_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("modified_date")
@@ -443,46 +416,12 @@ namespace WebApiKnowlegde.Migrations
             modelBuilder.Entity("WebApiKnowlegde.Entidades.departaments", b =>
                 {
                     b.HasOne("WebApiKnowlegde.Entidades.entrerprises", "entrerprises")
-                        .WithMany("departaments")
+                        .WithMany()
                         .HasForeignKey("entrerprisesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("entrerprises");
-                });
-
-            modelBuilder.Entity("WebApiKnowlegde.Entidades.departaments_employees", b =>
-                {
-                    b.HasOne("WebApiKnowlegde.Entidades.departaments", "departaments")
-                        .WithMany("departaments_employees")
-                        .HasForeignKey("departamentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiKnowlegde.Entidades.employees", "employees")
-                        .WithMany("departaments_employees")
-                        .HasForeignKey("employeesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("departaments");
-
-                    b.Navigation("employees");
-                });
-
-            modelBuilder.Entity("WebApiKnowlegde.Entidades.departaments", b =>
-                {
-                    b.Navigation("departaments_employees");
-                });
-
-            modelBuilder.Entity("WebApiKnowlegde.Entidades.employees", b =>
-                {
-                    b.Navigation("departaments_employees");
-                });
-
-            modelBuilder.Entity("WebApiKnowlegde.Entidades.entrerprises", b =>
-                {
-                    b.Navigation("departaments");
                 });
 #pragma warning restore 612, 618
         }

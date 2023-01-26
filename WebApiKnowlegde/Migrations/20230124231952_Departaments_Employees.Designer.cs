@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiKnowlegde;
@@ -11,9 +12,11 @@ using WebApiKnowlegde;
 namespace WebApiKnowlegde.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230124231952_Departaments_Employees")]
+    partial class DepartamentsEmployees
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -362,12 +365,14 @@ namespace WebApiKnowlegde.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("created_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("created_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("modified_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("modified_date")
@@ -443,7 +448,7 @@ namespace WebApiKnowlegde.Migrations
             modelBuilder.Entity("WebApiKnowlegde.Entidades.departaments", b =>
                 {
                     b.HasOne("WebApiKnowlegde.Entidades.entrerprises", "entrerprises")
-                        .WithMany("departaments")
+                        .WithMany()
                         .HasForeignKey("entrerprisesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -478,11 +483,6 @@ namespace WebApiKnowlegde.Migrations
             modelBuilder.Entity("WebApiKnowlegde.Entidades.employees", b =>
                 {
                     b.Navigation("departaments_employees");
-                });
-
-            modelBuilder.Entity("WebApiKnowlegde.Entidades.entrerprises", b =>
-                {
-                    b.Navigation("departaments");
                 });
 #pragma warning restore 612, 618
         }
