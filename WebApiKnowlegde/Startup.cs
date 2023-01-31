@@ -29,6 +29,16 @@ namespace WebApiKnowlegde
             services.AddDbContext<AplicationDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("defaultConnection")));
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200", "http://localhost:4200/enterprises")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             options.TokenValidationParameters = new TokenValidationParameters
@@ -86,9 +96,20 @@ namespace WebApiKnowlegde
                 app.UseSwaggerUI();
             }
 
+            
+
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             app.UseAuthorization();
 

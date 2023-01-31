@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiKnowlegde;
@@ -11,9 +12,11 @@ using WebApiKnowlegde;
 namespace WebApiKnowlegde.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230126180913_nullableDepartaments")]
+    partial class nullableDepartaments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,7 +238,10 @@ namespace WebApiKnowlegde.Migrations
                     b.Property<string>("description")
                         .HasColumnType("text");
 
-                    b.Property<int?>("entrerprisesId")
+                    b.Property<int>("enterprisesId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("entrerprisesId")
                         .HasColumnType("integer");
 
                     b.Property<string>("modified_by")
@@ -245,6 +251,7 @@ namespace WebApiKnowlegde.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("phone")
@@ -269,12 +276,14 @@ namespace WebApiKnowlegde.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("created_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("created_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("modified_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("modified_date")
@@ -302,30 +311,36 @@ namespace WebApiKnowlegde.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("created_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("created_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("email")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("modified_by")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("modified_date")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("position")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("status")
                         .HasColumnType("boolean");
 
                     b.Property<string>("surname")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -342,6 +357,7 @@ namespace WebApiKnowlegde.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("address")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("created_by")
@@ -357,9 +373,11 @@ namespace WebApiKnowlegde.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("phone")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("status")
@@ -425,7 +443,9 @@ namespace WebApiKnowlegde.Migrations
                 {
                     b.HasOne("WebApiKnowlegde.Entidades.entrerprises", "entrerprises")
                         .WithMany("departaments")
-                        .HasForeignKey("entrerprisesId");
+                        .HasForeignKey("entrerprisesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("entrerprises");
                 });

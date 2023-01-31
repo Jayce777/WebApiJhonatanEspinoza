@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -42,6 +43,7 @@ namespace WebApiKnowlegde.Controllers
             }
         }
 
+        [EnableCors("AllowOrigin")]
         [HttpPost("login")]
         public async Task<ActionResult<responseAutentication>> Login(userCredentials userCredentials)
         {

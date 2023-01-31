@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApiKnowlegde;
@@ -11,9 +12,11 @@ using WebApiKnowlegde;
 namespace WebApiKnowlegde.Migrations
 {
     [DbContext(typeof(AplicationDbContext))]
-    partial class AplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230126181814_nullableDepartaments2")]
+    partial class nullableDepartaments2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,6 +237,9 @@ namespace WebApiKnowlegde.Migrations
 
                     b.Property<string>("description")
                         .HasColumnType("text");
+
+                    b.Property<int?>("enterprisesId")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("entrerprisesId")
                         .HasColumnType("integer");
