@@ -45,7 +45,7 @@ namespace WebApiKnowlegde.Controllers
                 departament.created_by = getClaimsToken.readClaimsFromToken(authorization);
                 context.departaments.Add(departament);
                 await context.SaveChangesAsync();
-                return Ok(new responseDTO(true, "Departaments create successfuly", null, null));
+                return Ok(new responseDTO(true, "Departaments create successfuly", departament, null));
 
             }
             catch (Exception ex)

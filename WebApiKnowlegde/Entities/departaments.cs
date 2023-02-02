@@ -1,4 +1,6 @@
-﻿namespace WebApiKnowlegde.Entidades
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WebApiKnowlegde.Entidades
 {
     public class departaments
     {
@@ -9,6 +11,8 @@
         public DateTime? modified_date { get; set; }
         public bool status { get; set; }
         public string? description { get; set; }
+        [NotMapped]
+        public string Hobbie { get; set; }
         public string name { get; set; }
         public string? phone { get; set; }
         public int? entrerprisesId { get; set; }

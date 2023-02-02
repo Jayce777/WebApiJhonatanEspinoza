@@ -61,6 +61,7 @@ namespace WebApiKnowlegde.Controllers
             try
             {
 
+
                 var listenterprises = await context.entrerprises.Include(d => d.departaments).ToListAsync();
 
                 return Ok(new responseDTO(true, "", mapper.Map<List<enterpriesesDTO>>(listenterprises), null));

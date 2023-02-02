@@ -23,7 +23,7 @@ namespace WebApiKnowlegde.Utilities
             };
             var keyCreate = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
             var credentials = new SigningCredentials(keyCreate, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddHours(1);
+            var expiration = DateTime.UtcNow.AddHours(4);
 
             var token = new JwtSecurityToken(issuer: null,audience:null,claims:claims,
                 notBefore:null,expires:expiration,signingCredentials:credentials);

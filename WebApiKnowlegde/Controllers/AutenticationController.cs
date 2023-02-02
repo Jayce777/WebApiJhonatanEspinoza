@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using WebApiKnowlegde.DTO;
@@ -15,7 +18,8 @@ namespace WebApiKnowlegde.Controllers
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
-     
+        private readonly GetClaimsToken getClaimsToken;
+
         public TokenGenerate tokenGenerate { get; set; }
         public IConfiguration Configuration { get; }
 
@@ -25,6 +29,8 @@ namespace WebApiKnowlegde.Controllers
             this.userManager = userManager;
             Configuration = configuration;
             tokenGenerate = new TokenGenerate(Configuration["JWTKey"]);
+            getClaimsToken = new GetClaimsToken();
+
         }
 
         [HttpPost("register")]
@@ -60,7 +66,21 @@ namespace WebApiKnowlegde.Controllers
 
         }
 
-        
+        [HttpGet("renoveToken")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult<responseAutentication>> RenoveToken()
+        {
+            var authorization = Request.Headers[HeaderNames.Authorization].ToString();
+
+            var credentials=new userCredentials()
+            {
+                Email = getClaimsToken.readClaimsFromToken(authorization)
+            };
+
+            return tokenGenerate.tokenCreate(credentials);
+        }
+
+
 
     }
 }

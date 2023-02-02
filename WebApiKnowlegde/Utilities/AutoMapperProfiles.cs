@@ -11,7 +11,10 @@ namespace WebApiKnowlegde.Utilidades
             //Creations
             CreateMap<enterpriesesCreateDTO, entrerprises>();
             CreateMap<departamentsCreateDTO, departaments>();
-            CreateMap<employeeCreateDTO, employees>();
+                
+            CreateMap<employeeCreateDTO, employees>()
+                .ForMember(depa => depa.departaments_employees,
+                options => options.MapFrom(MapDepartamentsEmployees));
 
 
             //Listing
@@ -25,7 +28,21 @@ namespace WebApiKnowlegde.Utilidades
             CreateMap<departamentUpdateDTO, departaments>();
             CreateMap<employeeUpdateDTO, employees>();  
 
+        }
+        private List<departaments_employees> MapDepartamentsEmployees(employeeCreateDTO employeeCreateDTO,employees employees)
+        {
+            var response = new List<departaments_employees>();
 
+            if (employeeCreateDTO.DepartamentosIds == null)
+            {
+                return response;
+
+            }
+            foreach (var departamentId in employeeCreateDTO.DepartamentosIds)
+            {
+                response.Add(new departaments_employees() { departamentsId = departamentId });
+            }
+            return response;
         }
     }
 }

@@ -52,7 +52,21 @@ namespace WebApiKnowlegde.Controllers
         {
             try
             {
-               
+                var departamentsIds = await context.departaments.Where(dep => employeeCreateDTO.DepartamentosIds.Contains(dep.Id))
+                    .Select(x => x.Id).ToListAsync();
+
+                if (employeeCreateDTO.DepartamentosIds == null)
+                {
+                    return Ok(new responseDTO(false, "No Departaments", null, null));
+
+                }
+
+                if (employeeCreateDTO.DepartamentosIds.Count != departamentsIds.Count)
+                {
+                    return Ok(new responseDTO(false, "Don't exist departaments sended", null, null));
+
+                }
+
                 var authorization = Request.Headers[HeaderNames.Authorization].ToString();
 
                 var employe = mapper.Map<employees>(employeeCreateDTO);
